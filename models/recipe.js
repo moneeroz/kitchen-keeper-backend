@@ -21,6 +21,14 @@ const Recipe = config.define(
       type: Sequelize.TEXT,
       allowNull: false,
     },
+    category_id: {
+      type: Sequelize.STRING,
+      allowNull: false,
+      refrences: {
+        model: "Category",
+        key: "id",
+      },
+    },
   },
   { timestamps: false },
 );
