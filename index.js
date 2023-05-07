@@ -8,6 +8,7 @@ const Recipe = require("./models/recipe");
 const User = require("./models/user");
 const bcrybt = require("bcrypt");
 const cors = require("cors");
+const recipeRoutes = require("./routes/recipe");
 
 // Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -21,7 +22,7 @@ app.use(express.static("public")); //This makes our plublic folder including the
 // DB table associations
 User.belongsToMany(Recipe, { through: Favourite });
 Recipe.belongsToMany(User, { through: Favourite });
-Catagory.hasMany(Recipe, { foreignKey: "id" });
+Catagory.hasMany(Recipe, { foreignKey: "category_id" });
 Recipe.belongsTo(Catagory, { foreignKey: "category_id" });
 
 // Test DB connection
@@ -35,9 +36,12 @@ config
   });
 
 // Sync models to DB --migrate
-// config.sync();
+config.sync();
+
+// Routes
+app.use("/api/recipes", recipeRoutes);
 
 // Server
 app.listen(process.env.PORT, () => {
-  console.log("Server is running");
+  console.log(`Server is running on PORT ${process.env.PORT}`);
 });

@@ -13,12 +13,16 @@ const Recipe = config.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    image_url: {
+    image: {
       type: Sequelize.STRING,
       allowNull: false,
     },
     cloudinary_id: {
       type: Sequelize.STRING,
+      allowNull: false,
+    },
+    ingredients: {
+      type: Sequelize.TEXT,
       allowNull: false,
     },
     directions: {
