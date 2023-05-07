@@ -17,6 +17,10 @@ const Recipe = config.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    cloudinary_id: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     directions: {
       type: Sequelize.TEXT,
       allowNull: false,

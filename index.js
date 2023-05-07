@@ -16,6 +16,7 @@ require("dotenv").config({ path: "./config/.env" });
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+app.use(express.static("public")); //This makes our plublic folder including the uploads folder public
 
 // DB table associations
 User.belongsToMany(Recipe, { through: Favourite });
