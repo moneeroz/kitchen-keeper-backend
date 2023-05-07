@@ -30,6 +30,7 @@ config
   .catch((err) => {
     console.log(err);
   });
+config.sync();
 
 // Server
 app.listen(process.env.PORT, () => {

@@ -1,9 +1,9 @@
 const config = require("../config/database");
 
-const Category = config.define(
-  "category",
+const Favourite = config.define(
+  "favourite",
   {},
   { timestamps: true, updatedAt: false },
 );
 
-module.exports = Category;
+module.exports = Favourite;
