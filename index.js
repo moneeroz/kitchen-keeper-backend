@@ -1,7 +1,6 @@
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
 const app = express();
-const Sequelize = require("sequelize");
 const config = require("./config/database");
 const Catagory = require("./models/catagory");
 const Favourite = require("./models/favourite");
@@ -9,6 +8,9 @@ const Recipe = require("./models/recipe");
 const User = require("./models/user");
 const bcrybt = require("bcrypt");
 const cors = require("cors");
+
+// Use .env file in config folder
+require("dotenv").config({ path: "./config/.env" });
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -30,7 +32,9 @@ config
   .catch((err) => {
     console.log(err);
   });
-config.sync();
+
+// Sync models to DB --migrate
+// config.sync();
 
 // Server
 app.listen(process.env.PORT, () => {
