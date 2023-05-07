@@ -9,6 +9,7 @@ const User = require("./models/user");
 const bcrybt = require("bcrypt");
 const cors = require("cors");
 const recipeRoutes = require("./routes/recipe");
+const userRoutes = require("./routes/user");
 
 // Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -39,7 +40,8 @@ config
 config.sync();
 
 // Routes
-app.use("/api/recipes", recipeRoutes);
+app.use("/api/recipes", recipeRoutes); // Recipe routes
+app.use("/api/", userRoutes); // User routes
 
 // Server
 app.listen(process.env.PORT, () => {

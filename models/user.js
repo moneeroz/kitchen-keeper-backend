@@ -9,7 +9,7 @@ const User = config.define(
       allowNull: false,
       primaryKey: true,
     },
-    user_name: {
+    username: {
       type: Sequelize.STRING,
       allowNull: false,
       unique: true,
