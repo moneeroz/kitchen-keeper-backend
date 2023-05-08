@@ -1,11 +1,23 @@
 const { v4: uuidv4 } = require("uuid");
 const cloudinary = require("../middleware/cloudinary");
+const uploader = require("../middleware/multer");
 const Recipe = require("../models/recipe");
 
 module.exports = {
   // Retrieve all recipes from the Database
   getRecipes: (req, res) => {
     Recipe.findAll()
+      .then((result) => {
+        res.status(200).send(result);
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+  },
+  // Retrieve recipes based on catagory from the Database
+  getCategoryRecipes: (req, res) => {
+    const category_id = req.params.catagory_id;
+    Recipe.findAll({ where: { category_id } })
       .then((result) => {
         res.status(200).send(result);
       })

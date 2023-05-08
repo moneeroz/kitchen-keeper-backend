@@ -1,12 +1,10 @@
 const express = require("express");
-const { v4: uuidv4 } = require("uuid");
 const app = express();
 const config = require("./config/database");
 const Catagory = require("./models/catagory");
 const Favourite = require("./models/favourite");
 const Recipe = require("./models/recipe");
 const User = require("./models/user");
-const bcrybt = require("bcrypt");
 const cors = require("cors");
 const recipeRoutes = require("./routes/recipe");
 const userRoutes = require("./routes/user");
