@@ -6,6 +6,7 @@ const Favourite = require("./models/favourite");
 const Recipe = require("./models/recipe");
 const User = require("./models/user");
 const cors = require("cors");
+const logger = require("morgan");
 const recipeRoutes = require("./routes/recipe");
 const userRoutes = require("./routes/user");
 const favouriteRoutes = require("./routes/favourite");
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 app.use(express.static("public")); //This makes our plublic folder including the uploads folder public
+app.use(logger("dev")); // Logging
 
 // DB table associations
 User.belongsToMany(Recipe, { through: Favourite });
@@ -41,12 +43,12 @@ config
   });
 
 // Sync models to DB --migrate
-config.sync();
+// config.sync();
 
 // Routes
 app.use("/api/recipes", recipeRoutes); // Recipe routes
 app.use("/api/", userRoutes); // User routes
-app.use("/api/favourites", favouriteRoutes); // User routes
+app.use("/api/recipes/favourites", favouriteRoutes); // User routes
 
 // Server
 app.listen(process.env.PORT, () => {

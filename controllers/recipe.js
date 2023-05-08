@@ -1,6 +1,5 @@
 const { v4: uuidv4 } = require("uuid");
 const cloudinary = require("../middleware/cloudinary");
-const uploader = require("../middleware/multer");
 const Recipe = require("../models/recipe");
 
 module.exports = {
@@ -38,26 +37,29 @@ module.exports = {
       });
   },
   // Create a new recipe in the Database
-  createRecipe: (req, res) => {
+  createRecipe: async (req, res) => {
     const id = uuidv4();
-    const { name, image, cloudinary_id, ingredients, directions, category_id } =
-      req.body;
-
-    Recipe.create({
-      id,
-      name,
-      image,
-      cloudinary_id,
-      ingredients,
-      directions,
-      category_id,
-    })
-      .then((result) => {
-        res.status(200).send(result);
-      })
-      .catch((err) => {
-        res.status(500).send(err);
+    const { name, ingredients, directions, category_id } = req.body;
+    try {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "recipes",
       });
+      console.log(result);
+
+      await Recipe.create({
+        id,
+        name,
+        image: result.secure_url,
+        cloudinary_id: result.public_id,
+        ingredients,
+        directions,
+        category_id,
+      });
+      res.status(200).send(result);
+    } catch (err) {
+      res.status(500).send(err);
+      console.log(err);
+    }
   },
   // Delete a recipe from the Database
   deleteRecipe: (req, res) => {
