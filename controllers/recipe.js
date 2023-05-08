@@ -1,7 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const cloudinary = require("../middleware/cloudinary");
 const Recipe = require("../models/recipe");
-const Favourite = require("../models/favourite");
 
 module.exports = {
   // Retrieve all recipes from the Database

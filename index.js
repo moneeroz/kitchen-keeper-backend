@@ -10,6 +10,7 @@ const bcrybt = require("bcrypt");
 const cors = require("cors");
 const recipeRoutes = require("./routes/recipe");
 const userRoutes = require("./routes/user");
+const favouriteRoutes = require("./routes/favourite");
 
 // Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -23,6 +24,11 @@ app.use(express.static("public")); //This makes our plublic folder including the
 // DB table associations
 User.belongsToMany(Recipe, { through: Favourite });
 Recipe.belongsToMany(User, { through: Favourite });
+User.hasMany(Favourite);
+Favourite.belongsTo(User);
+Recipe.hasMany(Favourite);
+Favourite.belongsTo(Recipe);
+
 Catagory.hasMany(Recipe, { foreignKey: "category_id" });
 Recipe.belongsTo(Catagory, { foreignKey: "category_id" });
 
@@ -42,6 +48,7 @@ config.sync();
 // Routes
 app.use("/api/recipes", recipeRoutes); // Recipe routes
 app.use("/api/", userRoutes); // User routes
+app.use("/api/favourites", favouriteRoutes); // User routes
 
 // Server
 app.listen(process.env.PORT, () => {
