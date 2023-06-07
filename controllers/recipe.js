@@ -13,6 +13,23 @@ module.exports = {
         res.status(500).send(err);
       });
   },
+  //
+  getPaginatedRecipes: async (req, res) => {
+    const page = req.query.page;
+    const limit = 2;
+    const offset = (page - 1) * limit;
+
+    await Recipe.findAll({
+      limit: limit,
+      offset: offset,
+    })
+      .then((result) => {
+        res.status(200).send(result);
+      })
+      .catch((err) => {
+        res.status(500).send(err);
+      });
+  },
   // Retrieve recipes based on catagory from the Database
   getCategoryRecipes: (req, res) => {
     const category_id = req.params.catagory_id;
