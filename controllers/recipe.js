@@ -78,6 +78,47 @@ module.exports = {
       console.log(err);
     }
   },
+  // edit recipe in the database
+  updateRecipe: (req, res) => {
+    const recipeId = req.params.id;
+    const data = req.body;
+
+    Recipe.findByPk(recipeId).then(async (result) => {
+      // Check if the recipe exists in the database table
+      if (!result) {
+        res.status(404).send("Recipe not found!");
+        return;
+      }
+      try {
+        const cloudinaryResult = await cloudinary.uploader.upload(
+          req.file.path,
+          {
+            folder: "recipes",
+          },
+        );
+        console.log(cloudinaryResult);
+        await cloudinary.uploader.destroy(result.cloudinary_id);
+
+        result.name = data.name;
+        result.ingredients = data.ingredients;
+        result.directions = data.directions;
+        result.category_id = data.category_id;
+        result.image = cloudinaryResult.secure_url;
+        result.cloudinary_id = cloudinaryResult.public_id;
+
+        result
+          .save()
+          .then(() => {
+            res.status(200).send(result);
+          })
+          .catch((err) => {
+            res.status(500).send(err);
+          });
+      } catch (err) {
+        res.status(500).send(err);
+      }
+    });
+  },
   // Delete a recipe from the Database
   deleteRecipe: (req, res) => {
     const recipeId = req.params.id;
@@ -89,10 +130,12 @@ module.exports = {
           res.status(404).send("Recipe not found!");
           return;
         }
+
         // Delete the recipe from database
         result
           .destroy()
-          .then(() => {
+          .then(async () => {
+            await cloudinary.uploader.destroy(result.cloudinary_id);
             res.status(200).send(result);
           })
           .catch((err) => {

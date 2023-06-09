@@ -17,6 +17,12 @@ router.post(
   upload.single("image"),
   recipeController.createRecipe,
 );
+// Create a recipe
+router.put(
+  "/update-recipe/:id",
+  upload.single("image"),
+  recipeController.updateRecipe,
+);
 // Delete a recipe by id
 router.delete("/delete-recipe/:id", recipeController.deleteRecipe);
 
