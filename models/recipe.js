@@ -21,10 +21,10 @@ const Recipe = config.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
-    ingredients: {
-      type: Sequelize.TEXT,
-      allowNull: false,
-    },
+    // ingredientsList: {
+    //   type: Sequelize.ARRAY(Sequelize.STRING),
+    //   allowNull: false,
+    // },
     directions: {
       type: Sequelize.TEXT,
       allowNull: false,

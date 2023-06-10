@@ -56,23 +56,23 @@ module.exports = {
   // Create a new recipe in the Database
   createRecipe: async (req, res) => {
     const id = uuidv4();
-    const { name, ingredients, directions, category_id } = req.body;
+    const { name, directions, category_id } = req.body;
     try {
       const result = await cloudinary.uploader.upload(req.file.path, {
         folder: "recipes",
       });
-      console.log(result);
+      // console.log(result);
 
       await Recipe.create({
         id,
         name,
         image: result.secure_url,
         cloudinary_id: result.public_id,
-        ingredients,
         directions,
         category_id,
+      }).then((finalResult) => {
+        res.status(200).send(finalResult);
       });
-      res.status(200).send(result);
     } catch (err) {
       res.status(500).send(err);
       console.log(err);
