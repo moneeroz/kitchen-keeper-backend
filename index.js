@@ -6,12 +6,17 @@ const Favourite = require("./models/favourite");
 const Recipe = require("./models/recipe");
 const User = require("./models/user");
 const Cart = require("./models/cart");
+const Ingredient = require("./models/ingredient");
+const RecipeIngredients = require("./models/recipeIngredient");
 const cors = require("cors");
 const logger = require("morgan");
 const recipeRoutes = require("./routes/recipe");
 const userRoutes = require("./routes/user");
 const favouriteRoutes = require("./routes/favourite");
 const cartRoutes = require("./routes/cart");
+const ingredientRoutes = require("./routes/ingredient");
+const recipeIngredientRoutes = require("./routes/recipeIngredient");
+const ingredient = require("./controllers/ingredient");
 
 // Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -41,6 +46,13 @@ Cart.belongsTo(Recipe);
 Catagory.hasMany(Recipe, { foreignKey: "category_id" });
 Recipe.belongsTo(Catagory, { foreignKey: "category_id" });
 
+Recipe.belongsToMany(Ingredient, { through: RecipeIngredients });
+Ingredient.belongsToMany(Recipe, { through: RecipeIngredients });
+Recipe.hasMany(RecipeIngredients);
+RecipeIngredients.belongsTo(Recipe);
+Ingredient.hasMany(RecipeIngredients);
+RecipeIngredients.belongsTo(Ingredient);
+
 // Test DB connection
 config
   .authenticate()
@@ -52,13 +64,15 @@ config
   });
 
 // Sync models to DB --migrate
-// config.sync();
+config.sync();
 
 // Routes
 app.use("/api/recipes", recipeRoutes); // Recipe routes
 app.use("/api", userRoutes); // User routes
 app.use("/api/recipes/favourites", favouriteRoutes); // Favourite routes
 app.use("/api/recipes/cart", cartRoutes); // Cart routes
+app.use("/api/ingredients", ingredientRoutes); // Ingredients routes
+app.use("/api/recipe-ingredients", recipeIngredientRoutes); // Ingredients routes
 
 // Server
 app.listen(process.env.PORT, () => {
