@@ -13,6 +13,10 @@ const Recipe = config.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    prep_time: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     image: {
       type: Sequelize.STRING,
       allowNull: false,
