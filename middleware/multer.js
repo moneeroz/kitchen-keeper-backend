@@ -11,7 +11,7 @@ module.exports = multer({
       ext !== ".png" &&
       ext !== ".webp"
     ) {
-      cb(new Error("File tybe is not supported"), false);
+      cb(new Error("File type is not supported"), false);
       return;
     }
     cb(null, true);
