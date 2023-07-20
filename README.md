@@ -23,7 +23,13 @@ To run the following project on your machine please follow the steps below:
 npm install
 ```
 
-2. Run the server.
+2. You will find a .env.example inside the config folder.
+
+- Rename .env.example to .env
+- Generate your api keys and database credintials (any sql db) and add them to the .env
+- Inside the config folder there is a database.js, make sure your dialect is set to the proper SQL database you are using
+
+3. Run the server.
 
 ```
 node index.js
