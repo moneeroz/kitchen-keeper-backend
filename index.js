@@ -12,6 +12,7 @@ const recipeRoutes = require("./routes/recipe");
 const userRoutes = require("./routes/user");
 const favouriteRoutes = require("./routes/favourite");
 const cartRoutes = require("./routes/cart");
+const openAiRoute = require("./routes/openAi");
 
 // Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -59,6 +60,7 @@ app.use("/api/recipes", recipeRoutes); // Recipe routes
 app.use("/api", userRoutes); // User routes
 app.use("/api/recipes/favourites", favouriteRoutes); // Favourite routes
 app.use("/api/recipes/cart", cartRoutes); // Cart routes
+app.use("/api/openai", openAiRoute); // custom recipe route
 
 // Server
 app.listen(process.env.PORT, () => {
